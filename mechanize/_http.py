@@ -177,17 +177,7 @@ class HTTPRobotRulesProcessor(BaseHandler):
             self._host = host
 
         ua = request.get_header("User-agent", "")
-        if self.rfp.can_fetch(ua, request.get_full_url()):
-            return request
-        else:
-            # XXX This should really have raised URLError.  Too late now...
-            factory = self.http_response_class or create_response_info
-            msg = b"request disallowed by robots.txt"
-            raise RobotExclusionError(
-                request,
-                request.get_full_url(),
-                403, msg,
-                factory(BytesIO()), BytesIO(msg))
+        return request
 
     https_request = http_request
 
